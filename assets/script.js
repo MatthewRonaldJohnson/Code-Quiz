@@ -11,7 +11,7 @@ var currentQuestion = 0;
 var score = 0;
 var clock; // will later be defined as a setInterval, want it on global scale so i can clearInterval outside of the function it lives in
 var timeLeft = 100;
-var highScores = JSON.parse(localStorage.getItem("highScoresArray")) || []; // sets highScores to what is saved in local storage, or if nothing to make it an empty array 
+var highScores = JSON.parse(localStorage.getItem("highScoresArray")) || []; // sets highScores to what is saved in local storage, if nothing is in local storage, set it to store an empty array
 
 //stores questions, correct answers, and multiple choice options 
 var bank = [
@@ -72,19 +72,40 @@ function stopWatch() {
 }
 
 function populateQuestion() {
+  //populates question
   $questionCard.firstElementChild.textContent = bank[currentQuestion].question;
-  $optionsList.children[0].textContent = bank[currentQuestion].options[0];
-  $optionsList.children[1].textContent = bank[currentQuestion].options[1];
-  $optionsList.children[2].textContent = bank[currentQuestion].options[2];
-  $optionsList.children[3].textContent = bank[currentQuestion].options[3];
-  $optionsList.children[0].addEventListener("click", checkAnswer);
-  $optionsList.children[1].addEventListener("click", checkAnswer);
-  $optionsList.children[2].addEventListener("click", checkAnswer);
-  $optionsList.children[3].addEventListener("click", checkAnswer);
+  //shuffle the options array
+  //populate the options (create li element, append to $optionsList)
+  bank[currentQuestion].options.forEach(function(i){
+    var $li = document.createElement("li");
+    $li.textContent = i;
+    $optionsList.appendChild($li);
+  })
+  //single evenet listener on entire $optionslist
+  $optionsList.addEventListener("click", function(event){
+    console.log("click")
+    var element = event.target;
+
+    if (element.matches("li")){
+      checkAnswer(element)
+    }
+  })
+  //logic to call checkAnswer if click on a li
+
+
+  // $optionsList.children[0].textContent = bank[currentQuestion].options[0];
+  // $optionsList.children[1].textContent = bank[currentQuestion].options[1];
+  // $optionsList.children[2].textContent = bank[currentQuestion].options[2];
+  // $optionsList.children[3].textContent = bank[currentQuestion].options[3];
+  // $optionsList.children[0].addEventListener("click", checkAnswer);
+  // $optionsList.children[1].addEventListener("click", checkAnswer);
+  // $optionsList.children[2].addEventListener("click", checkAnswer);
+  // $optionsList.children[3].addEventListener("click", checkAnswer);
 }
 
 function checkAnswer(event){
-  if (event.target.textContent === bank[currentQuestion].answer){
+  removeChildren($optionsList); //removes the previous lis created for last question
+  if (event.textContent === bank[currentQuestion].answer){
     correctAnswer();
   } else {
     incorrectAnswer();
@@ -132,7 +153,7 @@ function showResults() {
 
 function addHighScore(burrito){
     if (burrito === "") {
-        burrito = "🐱‍👤"; //if no name given, use ninja emoji
+        burrito = "🐱‍👤"; //if no name given, use ninja emoji (sometimes it shows as a cat instead?)
       }
     var newScore = {initials: burrito.slice(0,3), score}
     highScores.push(newScore);
@@ -171,4 +192,10 @@ function resetScores(){
     $leaderBoard.innerHTML = "";
     highScores.length = 0;
     localStorage.setItem("highScoresArray", JSON.stringify(highScores));
+}
+
+function removeChildren(parent){
+  while(parent.firstChild){
+    parent.removeChild(parent.firstChild);
+  }
 }
