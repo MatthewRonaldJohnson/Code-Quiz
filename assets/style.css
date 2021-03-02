@@ -7,12 +7,32 @@
     justify-content: space-between;
 }
 
-#container {
+#welcome {
     width: 700px;
     text-align: center;
     margin: 0 auto;
 }
 
-#container #start-button:hover{
+#welcome #start-button:hover{
     cursor: pointer;
+}
+
+#question, #results, #highScore {
+    display: none;
+    width: 700px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#answers, #leaderBoard {
+    display: flex;
+    align-items: flex-start;
+    flex-direction: column;
+}
+
+#prevResult {
+    display: none;
+    color: grey;
+    border-top: solid grey;
+    text-align: left;
 }
