@@ -7,24 +7,24 @@
     justify-content: space-between;
 }
 
-#welcome {
+#welcomeCard {
     width: 700px;
     text-align: center;
     margin: 0 auto;
 }
 
-#welcome #start-button:hover{
+#welcomeCard #start-button:hover{
     cursor: pointer;
 }
 
-#question, #results, #highScore {
+#questionCard, #resultsCard, #highScoreCard {
     display: none;
     width: 700px;
     text-align: center;
     margin: 0 auto;
 }
 
-#answers, #leaderBoard {
+#options, #leaderBoard {
     display: flex;
     align-items: flex-start;
     flex-direction: column;

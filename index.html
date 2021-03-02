@@ -9,42 +9,41 @@
 </head>
 <body>
     <div id="top-bar">
-        <div id="HSScreen">High Scores</div>
+        <div id="highScoreLink">High Scores</div>
         <div id="timer">Timer: 100</div>
     </div>
 
-    <div id="welcome"> <!-- shown on load, hidden as we start the quiz -->
-        <h1 id="title">Code Quiz</h1>
-        <p id="desc">Hit the start button to begin the quiz. You will have 100 seconds to answer 10 questions. For each missed question 5 seconds will be subtracted from your time. Once you've answered all the questions or the timer runs out you can save your score.</p>
+    <div id="welcomeCard"> <!-- shown on load, hidden as we start the quiz -->
+        <h1>Code Quiz</h1>
+        <p>Hit the start button to begin the quiz. You will have 100 seconds to answer 10 questions. For each missed question 5 seconds will be subtracted from your time. Once you've answered all the questions or the timer runs out you can save your score.</p>
         <button id="start-button">start</button>
     </div>
 
-    <div id="question"> <!-- hidden until called for  -->
+    <div id="questionCard"> <!-- hidden until called for  -->
         <h2>Question</h2>
-        <ul id="answers">
+        <ul id="options">
             <li id="a">Option A</li>
             <li id="b">Option B</li>
             <li id="c">Option C</li>
             <li id="d">Option D</li>
         </ul>
         <h4 id="prevResult">
-            Correct
         </h4>
     </div>
 
-    <div id="results">
+    <div id="resultsCard">
         <h2>Finished!</h2>
-        <p id="resultsDesc">you got x/10 right</p>
-        <p>Enter your initials</p>
-        <input type="text">
-        <button>Submit</button>
+        <p id="resultsDesc"></p>
+        <p>Enter your initials to save your high scores</p>
+        <input id="initials" type="text" placeholder="Your Initials">
+        <button id="submit-button">Submit</button>
     </div>
 
-    <div id="highScore">
+    <div id="highScoreCard">
         <h2>High Scores</h2>
         <ol id="leaderBoard"></ol>
-        <button id="goBack">Go Back</button>
-        <button id="reset">Reset Scores</button>
+        <button id="goBack-button">Go Back</button>
+        <button id="reset-button">Reset Scores</button>
     </div>
 
     <script src="./assets/script.js"></script>
