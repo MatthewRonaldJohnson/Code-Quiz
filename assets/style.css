@@ -1,0 +1,18 @@
+* {
+    font-family: 'Courier New', Courier, monospace;
+}
+
+#top-bar {
+    display: flex;
+    justify-content: space-between;
+}
+
+#container {
+    width: 700px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+#container #start-button:hover{
+    cursor: pointer;
+}
