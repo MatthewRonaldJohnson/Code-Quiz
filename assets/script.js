@@ -12,30 +12,65 @@ var score = 0;
 var clock; // will later be defined as a setInterval, want it on global scale so i can clearInterval outside of the function it lives in
 var timeLeft = 100;
 
-var questionBank = [
-  "Q1",
-  "Q2",
-  "Q3",
-  "Q4",
-  "Q5",
-  "Q6",
-  "Q7",
-  "Q8",
-  "Q9",
-  "Q10",
-];
-var answerBank = [
-  ["right", "wrong", "wrong", "wrong"],
-  ["right", "wrong", "wrong", "wrong"],
-  ["right", "wrong", "wrong", "wrong"],
-  ["right", "wrong", "wrong", "wrong"],
-  ["right", "wrong", "wrong", "wrong"],
-  ["right", "wrong", "wrong", "wrong"],
-  ["right", "wrong", "wrong", "wrong"],
-  ["right", "wrong", "wrong", "wrong"],
-  ["right", "wrong", "wrong", "wrong"],
-  ["right", "wrong", "wrong", "wrong"],
-];
+document.getElementById("submit-button").addEventListener("click", function () {
+    addHighScore(document.getElementById("initials").value);
+    showHighScores();
+  });
+
+// var questionBank = [
+//   "Q1",
+//   "Q2",
+//   "Q3",
+//   "Q4",
+//   "Q5",
+//   "Q6",
+//   "Q7",
+//   "Q8",
+//   "Q9",
+//   "Q10",
+// ];
+// var answerBank = [
+//   ["right", "wrong", "wrong", "wrong"],
+//   ["right", "wrong", "wrong", "wrong"],
+//   ["right", "wrong", "wrong", "wrong"],
+//   ["right", "wrong", "wrong", "wrong"],
+//   ["right", "wrong", "wrong", "wrong"],
+//   ["right", "wrong", "wrong", "wrong"],
+//   ["right", "wrong", "wrong", "wrong"],
+//   ["right", "wrong", "wrong", "wrong"],
+//   ["right", "wrong", "wrong", "wrong"],
+//   ["right", "wrong", "wrong", "wrong"],
+// ];
+
+var bank = [
+  {
+    question: "Q1",
+    answer: "answer1",
+    options: ["answer1", "wrong1", "wrong2", "wrong3"]
+  },
+  {
+    question: "Q2",
+    answer: "answer2",
+    options: ["x", "answer2", "x", "x"]
+  },
+  {
+    question: "Q3",
+    answer: "answer3",
+    options: ["answer1", "wrong1", "answer3", "wrong3"]
+  },
+  {
+    question: "Q4",
+    answer: "answer4",
+    options: ["answer1", "wrong1", "wrong2", "answer4"]
+  },
+  {
+    question: "Q5",
+    answer: "answer5",
+    options: ["answer1", "answer5", "wrong2", "wrong3"]
+  }
+]
+
+var highScores = JSON.parse(localStorage.getItem("highScoresArray")) || [];
 
 //when a click is heard on the start button, the welcome card disappears and the question card is displayed
 $startButton.addEventListener("click", function () {
@@ -61,15 +96,23 @@ function stopWatch() {
 }
 
 function populateQuestion() {
-  $questionCard.firstElementChild.textContent = questionBank[currentQuestion];
-  $optionsList.children[0].textContent = answerBank[currentQuestion][0];
-  $optionsList.children[1].textContent = answerBank[currentQuestion][1];
-  $optionsList.children[2].textContent = answerBank[currentQuestion][2];
-  $optionsList.children[3].textContent = answerBank[currentQuestion][3];
-  $optionsList.children[0].addEventListener("click", correctAnswer);
-  $optionsList.children[1].addEventListener("click", incorrectAnswer);
-  $optionsList.children[2].addEventListener("click", incorrectAnswer);
-  $optionsList.children[3].addEventListener("click", incorrectAnswer);
+  $questionCard.firstElementChild.textContent = bank[currentQuestion].question;
+  $optionsList.children[0].textContent = bank[currentQuestion].options[0];
+  $optionsList.children[1].textContent = bank[currentQuestion].options[1];
+  $optionsList.children[2].textContent = bank[currentQuestion].options[2];
+  $optionsList.children[3].textContent = bank[currentQuestion].options[3];
+  $optionsList.children[0].addEventListener("click", checkAnswer);
+  $optionsList.children[1].addEventListener("click", checkAnswer);
+  $optionsList.children[2].addEventListener("click", checkAnswer);
+  $optionsList.children[3].addEventListener("click", checkAnswer);
+}
+
+function checkAnswer(event){
+  if (event.target.textContent === bank[currentQuestion].answer){
+    correctAnswer();
+  } else {
+    incorrectAnswer();
+  }
 }
 
 function correctAnswer() {
@@ -96,7 +139,7 @@ function incorrectAnswer() {
 
 function nextQuestion() {
   currentQuestion++;
-  if (currentQuestion === questionBank.length) {
+  if (currentQuestion === bank.length) {
     showResults();
   } else {
     populateQuestion();
@@ -115,26 +158,32 @@ function showResults() {
   $questionCard.style.display = "none";
   $resultsCard.style.display = "block";
   document.getElementById("resultsDesc").textContent =
-    "You got " + score + " of " + questionBank.length + " correct!";
-  document.getElementById("submit-button").addEventListener("click", function () {
-      addHighScore(document.getElementById("initials").value);
-      showHighScores();
-    });
+    "You got " + score + " of " + bank.length + " correct!";
 }
 
 function addHighScore(burrito){
     if (burrito === "") {
         burrito = "🐱‍👤"; //if no name given, use ninja emoji
       }
-    newScore = document.createElement("li");
-    newScore.textContent = burrito + " " + score;
-    $leaderBoard.append(newScore);
-    console.log("I should only happen once")
+    var newScore = {initials: burrito.slice(0,3), score}
+    highScores.push(newScore);
+    highScores.sort(function(a,b){
+      return b.score - a.score;
+    })
+    localStorage.setItem("highScoresArray", JSON.stringify(highScores))
 }
 
 function showHighScores(burrito) {
+  $leaderBoard.innerHTML = "";
+  highScores.forEach(function(i){
+    var placeholder = document.createElement("li");
+    placeholder.textContent = i.initials + " " + i.score;
+    $leaderBoard.appendChild(placeholder);
+  })
   $welcomeCard.style.display = "none";
   $resultsCard.style.display = "none";
+  $questionCard.style.display = "none";
+  clearInterval(clock);
   $highScoreCard.style.display = "block";
   document.getElementById("goBack-button").addEventListener("click", welcomeScreen);
   document.getElementById("reset-button").addEventListener("click", resetScores);
@@ -152,4 +201,6 @@ function resetScores(){
     while ($leaderBoard.firstChild){
         $leaderBoard.removeChild($leaderBoard.firstChild);
     }
+    highScores.length = 0;
+    localStorage.setItem("highScoresArray", JSON.stringify(highScores));
 }
