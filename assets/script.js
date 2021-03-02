@@ -76,6 +76,7 @@ function correctAnswer() {
   score++;
   $prevResult.textContent = "Correct";
   $prevResult.style.display = "block";
+  $prevResult.style.backgroundColor = "#79E862"
   setTimeout(function () {
     $prevResult.style.display = "none";
   }, 1000);
@@ -86,6 +87,7 @@ function incorrectAnswer() {
   timeLeft -= 5;
   $prevResult.textContent = "Incorrect";
   $prevResult.style.display = "block";
+  $prevResult.style.backgroundColor = "#F05048"
   setTimeout(function () {
     $prevResult.style.display = "none";
   }, 1000);
