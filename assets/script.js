@@ -11,42 +11,14 @@ var currentQuestion = 0;
 var score = 0;
 var clock; // will later be defined as a setInterval, want it on global scale so i can clearInterval outside of the function it lives in
 var timeLeft = 100;
+var highScores = JSON.parse(localStorage.getItem("highScoresArray")) || []; // sets highScores to what is saved in local storage, or if nothing to make it an empty array 
 
-document.getElementById("submit-button").addEventListener("click", function () {
-    addHighScore(document.getElementById("initials").value);
-    showHighScores();
-  });
-
-// var questionBank = [
-//   "Q1",
-//   "Q2",
-//   "Q3",
-//   "Q4",
-//   "Q5",
-//   "Q6",
-//   "Q7",
-//   "Q8",
-//   "Q9",
-//   "Q10",
-// ];
-// var answerBank = [
-//   ["right", "wrong", "wrong", "wrong"],
-//   ["right", "wrong", "wrong", "wrong"],
-//   ["right", "wrong", "wrong", "wrong"],
-//   ["right", "wrong", "wrong", "wrong"],
-//   ["right", "wrong", "wrong", "wrong"],
-//   ["right", "wrong", "wrong", "wrong"],
-//   ["right", "wrong", "wrong", "wrong"],
-//   ["right", "wrong", "wrong", "wrong"],
-//   ["right", "wrong", "wrong", "wrong"],
-//   ["right", "wrong", "wrong", "wrong"],
-// ];
-
+//stores questions, correct answers, and multiple choice options 
 var bank = [
   {
     question: "Q1",
     answer: "answer1",
-    options: ["answer1", "wrong1", "wrong2", "wrong3"]
+    options: ["answer1", "x", "x", "x"]
   },
   {
     question: "Q2",
@@ -56,21 +28,25 @@ var bank = [
   {
     question: "Q3",
     answer: "answer3",
-    options: ["answer1", "wrong1", "answer3", "wrong3"]
+    options: ["answer3", "x", "x", "x"]
   },
   {
     question: "Q4",
     answer: "answer4",
-    options: ["answer1", "wrong1", "wrong2", "answer4"]
+    options: ["answer4", "x", "x", "x"]
   },
   {
     question: "Q5",
     answer: "answer5",
-    options: ["answer1", "answer5", "wrong2", "wrong3"]
+    options: ["x", "answer5", "x", "x"]
   }
-]
+] 
 
-var highScores = JSON.parse(localStorage.getItem("highScoresArray")) || [];
+//sets up the click ability of the submit button that is hidden until we reach the results card
+document.getElementById("submit-button").addEventListener("click", function () {
+    addHighScore(document.getElementById("initials").value);
+    showHighScores();
+  });
 
 //when a click is heard on the start button, the welcome card disappears and the question card is displayed
 $startButton.addEventListener("click", function () {
@@ -146,13 +122,6 @@ function nextQuestion() {
   }
 }
 
-// function clearEventListeners(){
-//   $optionsList.children[0].removeEventListener("click", correctAnswer)
-//   $optionsList.children[1].removeEventListener("click", incorrectAnswer)
-//   $optionsList.children[2].removeEventListener("click", incorrectAnswer)
-//   $optionsList.children[3].removeEventListener("click", incorrectAnswer)
-// }
-
 function showResults() {
   clearInterval(clock);
   $questionCard.style.display = "none";
@@ -175,6 +144,7 @@ function addHighScore(burrito){
 
 function showHighScores(burrito) {
   $leaderBoard.innerHTML = "";
+  highScores = highScores.slice(0,5); //limits leaderboard to 5 entries 
   highScores.forEach(function(i){
     var placeholder = document.createElement("li");
     placeholder.textContent = i.initials + " " + i.score;
@@ -198,9 +168,7 @@ function welcomeScreen(){
 }
 
 function resetScores(){
-    while ($leaderBoard.firstChild){
-        $leaderBoard.removeChild($leaderBoard.firstChild);
-    }
+    $leaderBoard.innerHTML = "";
     highScores.length = 0;
     localStorage.setItem("highScoresArray", JSON.stringify(highScores));
 }

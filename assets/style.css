@@ -35,3 +35,20 @@
     border-top: solid grey;
     text-align: left;
 }
+
+#options > li {
+    margin: 10px;
+    background-color: #B548F0;
+    padding: 10px;
+    color: white;
+    box-shadow: 3px 3px grey;
+}
+
+#options > li:hover {
+    cursor: pointer;
+    background-color: #7F439F;
+}
+
+#options > li:active {
+    transform: translateY(4px);
+}
