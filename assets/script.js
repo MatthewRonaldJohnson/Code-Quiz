@@ -55,6 +55,7 @@ function stopWatch() {
     if (timeLeft <= 0) {
       clearInterval(clock);
       console.log("times up");
+      showResults();
     }
   }, 1000);
 }
@@ -126,6 +127,7 @@ function addHighScore(burrito){
     newScore = document.createElement("li");
     newScore.textContent = burrito + " " + score;
     $leaderBoard.append(newScore);
+    console.log("I should only happen once")
 }
 
 function showHighScores(burrito) {
