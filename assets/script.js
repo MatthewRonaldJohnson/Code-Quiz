@@ -13,32 +13,35 @@ var clock; // will later be defined as a setInterval, want it on global scale so
 var timeLeft = 100;
 var highScores = JSON.parse(localStorage.getItem("highScoresArray")) || []; // sets highScores to what is saved in local storage, if nothing is in local storage, set it to store an empty array
 
+var emojiBank = ["😷", "😍", "🤑", "🥵", "🤠", "🧐", "🥶", "😎", "👻", "👾", "🤖"];
 //stores questions, correct answers, and multiple choice options 
+//options array will be shuffled before before being presented so keeping the corrct answer at index 0 each time is fine 
+//options array can contain as many options as you want (generally 4)
 var bank = [
   {
     question: "Q1",
     answer: "answer1",
-    options: ["answer1", "x", "x", "x"]
+    options: ["answer1", "wrong", "wrong", "wrong"]
   },
   {
     question: "Q2",
     answer: "answer2",
-    options: ["x", "answer2", "x", "x"]
+    options: ["answer2", "wrong", "wrong", "wrong"]
   },
   {
     question: "Q3",
     answer: "answer3",
-    options: ["answer3", "x", "x", "x"]
+    options: ["answer3", "wrong", "wrong", "wrong"]
   },
   {
     question: "Q4",
     answer: "answer4",
-    options: ["answer4", "x", "x", "x"]
+    options: ["answer4", "wrong", "wrong"]
   },
   {
     question: "Q5",
     answer: "answer5",
-    options: ["x", "answer5", "x", "x"]
+    options: ["answer5", "wrong", "wrong", "wrong"]
   }
 ] 
 
@@ -47,6 +50,16 @@ document.getElementById("submit-button").addEventListener("click", function () {
     addHighScore(document.getElementById("initials").value);
     showHighScores();
   });
+
+//sets up click ability on multiple choice sections that is hidden until we reach the questions card
+//if statement before ensures we only do something if you click on a li in the list 
+$optionsList.addEventListener("click", function(event){
+    var element = event.target;
+
+    if (element.matches("li")){
+      checkAnswer(element)
+    }
+  })
 
 //when a click is heard on the start button, the welcome card disappears and the question card is displayed
 $startButton.addEventListener("click", function () {
@@ -65,7 +78,6 @@ function stopWatch() {
     timer.textContent = "Timer: " + timeLeft;
     if (timeLeft <= 0) {
       clearInterval(clock);
-      console.log("times up");
       showResults();
     }
   }, 1000);
@@ -75,32 +87,13 @@ function populateQuestion() {
   //populates question
   $questionCard.firstElementChild.textContent = bank[currentQuestion].question;
   //shuffle the options array
+  var currentOptions = shuffle(bank[currentQuestion].options);
   //populate the options (create li element, append to $optionsList)
-  bank[currentQuestion].options.forEach(function(i){
+  currentOptions.forEach(function(i){
     var $li = document.createElement("li");
     $li.textContent = i;
     $optionsList.appendChild($li);
   })
-  //single evenet listener on entire $optionslist
-  $optionsList.addEventListener("click", function(event){
-    console.log("click")
-    var element = event.target;
-
-    if (element.matches("li")){
-      checkAnswer(element)
-    }
-  })
-  //logic to call checkAnswer if click on a li
-
-
-  // $optionsList.children[0].textContent = bank[currentQuestion].options[0];
-  // $optionsList.children[1].textContent = bank[currentQuestion].options[1];
-  // $optionsList.children[2].textContent = bank[currentQuestion].options[2];
-  // $optionsList.children[3].textContent = bank[currentQuestion].options[3];
-  // $optionsList.children[0].addEventListener("click", checkAnswer);
-  // $optionsList.children[1].addEventListener("click", checkAnswer);
-  // $optionsList.children[2].addEventListener("click", checkAnswer);
-  // $optionsList.children[3].addEventListener("click", checkAnswer);
 }
 
 function checkAnswer(event){
@@ -151,11 +144,11 @@ function showResults() {
     "You got " + score + " of " + bank.length + " correct!";
 }
 
-function addHighScore(burrito){
-    if (burrito === "") {
-        burrito = "🐱‍👤"; //if no name given, use ninja emoji (sometimes it shows as a cat instead?)
+function addHighScore(name){
+    if (name === "") {
+        name = emojiBank[(Math.floor(Math.random()*emojiBank.length))]; //if no name given, give random emoji
       }
-    var newScore = {initials: burrito.slice(0,3), score}
+    var newScore = {initials: name.slice(0,3), score}
     highScores.push(newScore);
     highScores.sort(function(a,b){
       return b.score - a.score;
@@ -198,4 +191,23 @@ function removeChildren(parent){
   while(parent.firstChild){
     parent.removeChild(parent.firstChild);
   }
+}
+
+function shuffle(array) {
+  var currentIndex = array.length, temporaryValue, randomIndex;
+
+  // While there remain elements to shuffle...
+  while (0 !== currentIndex) {
+
+    // Pick a remaining element...
+    randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex -= 1;
+
+    // And swap it with the current element.
+    temporaryValue = array[currentIndex];
+    array[currentIndex] = array[randomIndex];
+    array[randomIndex] = temporaryValue;
+  }
+
+  return array;
 }
