@@ -37,6 +37,8 @@ Stackoverflow post on shuffling arrays [link](https://stackoverflow.com/question
 
 JavaScript Tutorial page on removing child nodes [link](https://www.javascripttutorial.net/dom/manipulating/remove-all-child-nodes/)
 
+CodeBurst.io article on short-circuit evaluation [link](https://codeburst.io/javascript-what-is-short-circuit-evaluation-ff22b2f5608c)
+
 MDN Doc on forEach() method for arrays [link](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
 
 MDN Doc on sort method for arrays [link](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
