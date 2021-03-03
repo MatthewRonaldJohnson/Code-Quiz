@@ -71,35 +71,33 @@ var bank = [
 ] 
 var shuffledBank; //on start bank with be shuffled and stored here for current quiz
 
+//when a click is heard on the start button, the welcome card disappears and the question card is displayed
+$startButton.addEventListener("click", function () {
+  shuffledBank = shuffle(bank);
+  startTimer();
+  populateQuestion();
+});
+
+//sets up click ability on multiple choice sections that is hidden until we reach the questions card
+//using event delegation, listens for the click event on entire list but only does something if the click is registered on a li
+$optionsList.addEventListener("click", function(event){
+  var element = event.target;
+  if (element.matches("li")){
+    checkAnswer(element)
+  }
+})
+
 //sets up the click ability of the submit button that is hidden until we reach the results card
 document.getElementById("submit-button").addEventListener("click", function () {
     addHighScore(document.getElementById("initials").value);
     showHighScores();
   });
 
-//sets up click ability on multiple choice sections that is hidden until we reach the questions card
-//if statement before ensures we only do something if you click on a li in the list 
-$optionsList.addEventListener("click", function(event){
-    var element = event.target;
-
-    if (element.matches("li")){
-      checkAnswer(element)
-    }
-  })
-
-//when a click is heard on the start button, the welcome card disappears and the question card is displayed
-$startButton.addEventListener("click", function () {
-  $highScoreLink.disabled = true;
-  $welcomeCard.style.display = "none";
-  $questionCard.style.display = "block";
-  shuffledBank = shuffle(bank);
-  stopWatch();
-  populateQuestion();
-});
-
+//sets up click ability on high scores button 
 $highScoreLink.addEventListener("click", showHighScores);
 
-function stopWatch() {
+//begins countdown, if timeLeft reaches 0 before the interval is cleared it will end the game
+function startTimer() {
   clock = setInterval(function () {
     timeLeft--;
     var timer = document.getElementById("timer");
@@ -111,16 +109,19 @@ function stopWatch() {
   }, 1000);
 }
 
+//displays the welcome card and shows the questions card
+//fills out current question based on the shuffled bank
+//shuffles the options of that question (unless it is a True/False question), then presents them to the user
 function populateQuestion() {
-  //populates question
+  $highScoreLink.disabled = true;
+  $welcomeCard.style.display = "none";
+  $questionCard.style.display = "block";
   $questionCard.firstElementChild.textContent = bank[currentQuestion].question;
-  //shuffle the options array, doesn't shuffle questions with 2 answers so True False appears as you would expect 
-  if(shuffledBank[currentQuestion].options.length !== 2){
-    var currentOptions = shuffle(shuffledBank[currentQuestion].options);
-  } else{
+  if(shuffledBank[currentQuestion].options.length === 2){
     var currentOptions = shuffledBank[currentQuestion].options;
+  } else{
+    var currentOptions = shuffle(shuffledBank[currentQuestion].options);
   }
-  //populate the options (create li element, append to $optionsList)
   currentOptions.forEach(function(i){
     var $li = document.createElement("li");
     $li.textContent = i;
@@ -128,8 +129,10 @@ function populateQuestion() {
   })
 }
 
+//removes previous options from questions ard
+//compares what the user clicked on to the stored correct answer
 function checkAnswer(event){
-  removeChildren($optionsList); //removes the previous lis created for last question
+  $optionsList.innerHTML = ""; //removes the previous lis created for last question
   if (event.textContent === shuffledBank[currentQuestion].answer){
     correctAnswer();
   } else {
@@ -137,6 +140,8 @@ function checkAnswer(event){
   }
 }
 
+
+//after each answer on of these two functions will run, either incrementing the score or reducing the time left
 function correctAnswer() {
   score++;
   $prevResult.textContent = "Correct";
@@ -159,6 +164,8 @@ function incorrectAnswer() {
   nextQuestion();
 }
 
+//interates the currentQuestion and checks if the quiz is over
+//if not populates the next question
 function nextQuestion() {
   currentQuestion++;
   if (currentQuestion === shuffledBank.length) {
@@ -168,6 +175,7 @@ function nextQuestion() {
   }
 }
 
+//hides the question card and shows the results card, stops the timer, and reanbles the link to the high score page
 function showResults() {
   $highScoreLink.disabled = false;
   clearInterval(clock);
@@ -177,6 +185,9 @@ function showResults() {
     "You got " + score + " of " + shuffledBank.length + " correct!";
 }
 
+//adds the new score (which is an object made up of initals as key and score as value) to the high scores array
+//slices to only take in max of 3 characters for initials
+//sorts the high score array, so that the highest scores have the lowest index
 function addHighScore(name){
     if (name === "") {
         name = emojiBank[(Math.floor(Math.random()*emojiBank.length))]; //if no name given, give random emoji
@@ -189,6 +200,7 @@ function addHighScore(name){
     localStorage.setItem("highScoresArray", JSON.stringify(highScores))
 }
 
+//clears out any list items currently on the leaderboard, slices the high score array to have only 5 items, then displays those starting with the lowest index
 function showHighScores(burrito) {
   $leaderBoard.innerHTML = "";
   highScores = highScores.slice(0,5); //limits leaderboard to 5 entries 
@@ -197,14 +209,14 @@ function showHighScores(burrito) {
     placeholder.textContent = i.initials + " " + i.score;
     $leaderBoard.appendChild(placeholder);
   })
-  $welcomeCard.style.display = "none"; //hides all other displays as you can reach high scores screen from anywhere
+  $welcomeCard.style.display = "none"; //hides both welcome and results cards as you can reach this card from either
   $resultsCard.style.display = "none";
-  clearInterval(clock);
   $highScoreCard.style.display = "block";
   document.getElementById("goBack-button").addEventListener("click", welcomeScreen);
   document.getElementById("reset-button").addEventListener("click", resetScores);
 }
 
+//resets the game pieces of timeLeft, currentQuestion, and score
 function welcomeScreen(){
     $highScoreCard.style.display = "none";
     $welcomeCard.style.display = "block";
@@ -213,32 +225,26 @@ function welcomeScreen(){
     score = 0;
 }
 
+//clears out currently displayed leaderboard, highscores array, and the local storage 
 function resetScores(){
     $leaderBoard.innerHTML = "";
     highScores.length = 0;
     localStorage.setItem("highScoresArray", JSON.stringify(highScores));
 }
 
-//function gotten from JavaScript Tutorial page linked in resources
-function removeChildren(parent){
-  while(parent.firstChild){
-    parent.removeChild(parent.firstChild);
-  }
-}
-
 //function taken from stackoverflow page linked in resources 
 function shuffle(array) {
-  var currentIndex = array.length, temporaryValue, randomIndex;
+  var currentIndex = array.length;
 
   // While there remain elements to shuffle...
   while (0 !== currentIndex) {
 
     // Pick a remaining element...
-    randomIndex = Math.floor(Math.random() * currentIndex);
+    var randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
 
     // And swap it with the current element.
-    temporaryValue = array[currentIndex];
+    var temporaryValue = array[currentIndex];
     array[currentIndex] = array[randomIndex];
     array[randomIndex] = temporaryValue;
   }

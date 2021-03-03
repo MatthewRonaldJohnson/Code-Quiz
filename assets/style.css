@@ -37,6 +37,10 @@
     text-align: left;
 }
 
+#options {
+    padding-left: 0;
+}
+
 #options > li {
     margin: 10px;
     background-color: #B548F0;
@@ -44,6 +48,8 @@
     color: white;
     box-shadow: 3px 3px grey;
     list-style: none;
+    width: 100%;
+    height: 50px;
 }
 
 #options > li:hover {
