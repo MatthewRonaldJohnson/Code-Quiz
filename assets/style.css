@@ -73,8 +73,13 @@ button:hover {
     color: red;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 800px){
     .card {
-        width: 100%;
+        width: 90%;
+    }
+
+    #options > li {
+        width: 90%;
+        height: 50px;
     }
 }
