@@ -242,11 +242,8 @@ function shuffle(array) {
     // Pick a remaining element...
     var randomIndex = Math.floor(Math.random() * currentIndex);
     currentIndex -= 1;
-
     // And swap it with the current element.
-    var temporaryValue = array[currentIndex];
-    array[currentIndex] = array[randomIndex];
-    array[randomIndex] = temporaryValue;
+    [array[randomIndex], array[currentIndex]] = [array[currentIndex], array[randomIndex]];
   }
 
   return array;

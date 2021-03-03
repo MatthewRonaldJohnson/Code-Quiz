@@ -39,4 +39,6 @@ CodeBurst.io article on short-circuit evaluation [link](https://codeburst.io/jav
 
 MDN Doc on forEach() method for arrays [link](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
 
-MDN Doc on sort method for arrays [link](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/sort)
+w3Schools on sort method for arrays [link](https://www.w3schools.com/js/js_array_sort.asp)
+
+MDN Doc on Destructuring Assigment [link](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
