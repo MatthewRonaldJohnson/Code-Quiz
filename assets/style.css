@@ -59,6 +59,14 @@ button:hover {
     cursor: pointer;
 }
 
+#highScoreLink:disabled:hover::after {
+    content: "Cannont Access During Game";
+    position: absolute;
+    top: 35px;
+    left: 5px;
+    color: red;
+}
+
 @media screen and (max-width: 768px){
     .card {
         width: 100%;

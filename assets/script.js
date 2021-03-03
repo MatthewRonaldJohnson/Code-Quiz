@@ -88,6 +88,7 @@ $optionsList.addEventListener("click", function(event){
 
 //when a click is heard on the start button, the welcome card disappears and the question card is displayed
 $startButton.addEventListener("click", function () {
+  $highScoreLink.disabled = true;
   $welcomeCard.style.display = "none";
   $questionCard.style.display = "block";
   stopWatch();
@@ -162,6 +163,7 @@ function nextQuestion() {
 }
 
 function showResults() {
+  $highScoreLink.disabled = false;
   clearInterval(clock);
   $questionCard.style.display = "none";
   $resultsCard.style.display = "block";
@@ -191,8 +193,6 @@ function showHighScores(burrito) {
   })
   $welcomeCard.style.display = "none"; //hides all other displays as you can reach high scores screen from anywhere
   $resultsCard.style.display = "none";
-  $questionCard.style.display = "none";
-  removeChildren($optionsList); //clears out options list in case you opened high scores during a question
   clearInterval(clock);
   $highScoreCard.style.display = "block";
   document.getElementById("goBack-button").addEventListener("click", welcomeScreen);
