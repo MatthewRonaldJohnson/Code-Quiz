@@ -12,11 +12,11 @@ var score = 0;
 var clock; // will later be defined as a setInterval, want it on global scale so i can clearInterval outside of the function it lives in
 var timeLeft = 100;
 var highScores = JSON.parse(localStorage.getItem("highScoresArray")) || []; // sets highScores to what is saved in local storage, if nothing is in local storage, set it to store an empty array
+var emojiBank = ["😷", "😍", "🤑", "🥵", "🤠", "🧐", "🥶", "😎", "👻", "👾", "🤖"]; //used to grab a random character to store high scores when user does not give initials 
 
-var emojiBank = ["😷", "😍", "🤑", "🥵", "🤠", "🧐", "🥶", "😎", "👻", "👾", "🤖"];
 //stores questions, correct answers, and multiple choice options 
-//options array will be shuffled before before being presented so keeping the corrct answer at index 0 each time is fine 
-//options array can contain as many options as you want (generally 4)
+//options array will be shuffled before before being presented, except in the case of there only being 2 options (so that True/False questions can display in expected way)
+//options array can contain as many options as you want (generally 4 or 2)
 var bank = [
   {
     question: "Which three languages make up the backbone of the web?",
@@ -36,7 +36,7 @@ var bank = [
   {
     question: "True or False: Javascript uses the exact same syntax as Java",
     answer: "False",
-    options: ["False", "True"]
+    options: ["True", "False"]
   },
   {
     question: "10 % 2 = ",
@@ -54,21 +54,22 @@ var bank = [
     options: ["3", "2", "undefined", "4"]
   },
   {
-    question: "Q8",
-    answer: "answer",
-    options: ["answer", "wrong", "wrong", "wrong"]
+    question: "What measurement of time do SetInterval() and setTimeout() use in their second argument?",
+    answer: "miliseconds",
+    options: ["miliseconds", "seconds", "minutes", "nanoseconds"]
   },
   {
-    question: "Q9",
-    answer: "answer",
-    options: ["answer", "wrong", "wrong"]
+    question: "True or False: DOM stands for Document Object Model.",
+    answer: "True",
+    options: ["True", "False"]
   },
   {
-    question: "Q10",
-    answer: "answer",
-    options: ["answer", "wrong", "wrong", "wrong"]
+    question: "What is the difference between == and === operators?",
+    answer: "== compares value but not data type, === compares both value and data type",
+    options: ["== compares value but not data type, === compares both value and data type", "no difference", "== is the assignment operator, === is used for comparison", "=== is not a valid javascript operator"]
   }
 ] 
+var shuffledBank; //on start bank with be shuffled and stored here for current quiz
 
 //sets up the click ability of the submit button that is hidden until we reach the results card
 document.getElementById("submit-button").addEventListener("click", function () {
@@ -91,6 +92,7 @@ $startButton.addEventListener("click", function () {
   $highScoreLink.disabled = true;
   $welcomeCard.style.display = "none";
   $questionCard.style.display = "block";
+  shuffledBank = shuffle(bank);
   stopWatch();
   populateQuestion();
 });
@@ -112,8 +114,12 @@ function stopWatch() {
 function populateQuestion() {
   //populates question
   $questionCard.firstElementChild.textContent = bank[currentQuestion].question;
-  //shuffle the options array
-  var currentOptions = shuffle(bank[currentQuestion].options);
+  //shuffle the options array, doesn't shuffle questions with 2 answers so True False appears as you would expect 
+  if(shuffledBank[currentQuestion].options.length !== 2){
+    var currentOptions = shuffle(shuffledBank[currentQuestion].options);
+  } else{
+    var currentOptions = shuffledBank[currentQuestion].options;
+  }
   //populate the options (create li element, append to $optionsList)
   currentOptions.forEach(function(i){
     var $li = document.createElement("li");
@@ -124,7 +130,7 @@ function populateQuestion() {
 
 function checkAnswer(event){
   removeChildren($optionsList); //removes the previous lis created for last question
-  if (event.textContent === bank[currentQuestion].answer){
+  if (event.textContent === shuffledBank[currentQuestion].answer){
     correctAnswer();
   } else {
     incorrectAnswer();
@@ -155,7 +161,7 @@ function incorrectAnswer() {
 
 function nextQuestion() {
   currentQuestion++;
-  if (currentQuestion === bank.length) {
+  if (currentQuestion === shuffledBank.length) {
     showResults();
   } else {
     populateQuestion();
@@ -168,7 +174,7 @@ function showResults() {
   $questionCard.style.display = "none";
   $resultsCard.style.display = "block";
   document.getElementById("resultsDesc").textContent =
-    "You got " + score + " of " + bank.length + " correct!";
+    "You got " + score + " of " + shuffledBank.length + " correct!";
 }
 
 function addHighScore(name){
