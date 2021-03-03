@@ -13,21 +13,19 @@
         <div id="timer">Timer: 100</div>
     </div>
 
-    <div id="welcomeCard"> <!-- shown on load, hidden as we start the quiz -->
+    <div id="welcomeCard" class="card"> <!-- shown on load, hidden as we start the quiz -->
         <h1>Code Quiz</h1>
         <p>Hit the start button to begin the quiz. You will have 100 seconds to answer 10 questions. For each missed question 5 seconds will be subtracted from your time. Once you've answered all the questions or the timer runs out you can save your score.</p>
         <button id="start-button">start</button>
     </div>
 
-    <div id="questionCard"> <!-- hidden until called for  -->
+    <div id="questionCard" class="card hidden"> <!-- hidden until called for  -->
         <h2>Question</h2>
-        <ul id="options">
-        </ul>
-        <h4 id="prevResult">
-        </h4>
+        <ul id="options"></ul>
+        <h4 id="prevResult"></h4>
     </div>
 
-    <div id="resultsCard">
+    <div id="resultsCard" class="card hidden">
         <h2>Finished!</h2>
         <p id="resultsDesc"></p>
         <p>Enter your initials to save your high scores (3 char limit)</p>
@@ -35,7 +33,7 @@
         <button id="submit-button">Submit</button>
     </div>
 
-    <div id="highScoreCard">
+    <div id="highScoreCard" class="card hidden">
         <h2>High Scores</h2>
         <ol id="leaderBoard"></ol>
         <button id="goBack-button">Go Back</button>

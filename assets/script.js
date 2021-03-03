@@ -20,28 +20,53 @@ var emojiBank = ["😷", "😍", "🤑", "🥵", "🤠", "🧐", "🥶", "😎",
 var bank = [
   {
     question: "Q1",
-    answer: "answer1",
-    options: ["answer1", "wrong", "wrong", "wrong"]
+    answer: "answer",
+    options: ["answer", "wrong", "wrong", "wrong"]
   },
   {
     question: "Q2",
-    answer: "answer2",
-    options: ["answer2", "wrong", "wrong", "wrong"]
+    answer: "answer",
+    options: ["answer", "wrong", "wrong", "wrong"]
   },
   {
     question: "Q3",
-    answer: "answer3",
-    options: ["answer3", "wrong", "wrong", "wrong"]
+    answer: "answer",
+    options: ["answer", "wrong", "wrong", "wrong"]
   },
   {
     question: "Q4",
-    answer: "answer4",
-    options: ["answer4", "wrong", "wrong"]
+    answer: "answer",
+    options: ["answer", "wrong", "wrong"]
   },
   {
     question: "Q5",
-    answer: "answer5",
-    options: ["answer5", "wrong", "wrong", "wrong"]
+    answer: "answer",
+    options: ["answer", "wrong", "wrong", "wrong"]
+  },
+  {
+    question: "Q6",
+    answer: "answer",
+    options: ["answer", "wrong", "wrong", "wrong"]
+  },
+  {
+    question: "Q7",
+    answer: "answer",
+    options: ["answer", "wrong", "wrong", "wrong"]
+  },
+  {
+    question: "Q8",
+    answer: "answer",
+    options: ["answer", "wrong", "wrong", "wrong"]
+  },
+  {
+    question: "Q9",
+    answer: "answer",
+    options: ["answer", "wrong", "wrong"]
+  },
+  {
+    question: "Q10",
+    answer: "answer",
+    options: ["answer", "wrong", "wrong", "wrong"]
   }
 ] 
 
@@ -164,9 +189,10 @@ function showHighScores(burrito) {
     placeholder.textContent = i.initials + " " + i.score;
     $leaderBoard.appendChild(placeholder);
   })
-  $welcomeCard.style.display = "none";
+  $welcomeCard.style.display = "none"; //hides all other displays as you can reach high scores screen from anywhere
   $resultsCard.style.display = "none";
   $questionCard.style.display = "none";
+  removeChildren($optionsList); //clears out options list in case you opened high scores during a question
   clearInterval(clock);
   $highScoreCard.style.display = "block";
   document.getElementById("goBack-button").addEventListener("click", welcomeScreen);
@@ -187,12 +213,14 @@ function resetScores(){
     localStorage.setItem("highScoresArray", JSON.stringify(highScores));
 }
 
+//function gotten from JavaScript Tutorial page linked in resources
 function removeChildren(parent){
   while(parent.firstChild){
     parent.removeChild(parent.firstChild);
   }
 }
 
+//function taken from stackoverflow page linked in resources 
 function shuffle(array) {
   var currentIndex = array.length, temporaryValue, randomIndex;
 

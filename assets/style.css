@@ -7,21 +7,22 @@
     justify-content: space-between;
 }
 
-#welcomeCard {
+#highScoreLink:hover {
+    cursor: pointer;
+}
+
+.card {
     width: 700px;
     text-align: center;
     margin: 0 auto;
+}
+
+.hidden {
+    display: none;
 }
 
 #welcomeCard #start-button:hover{
     cursor: pointer;
-}
-
-#questionCard, #resultsCard, #highScoreCard {
-    display: none;
-    width: 700px;
-    text-align: center;
-    margin: 0 auto;
 }
 
 #options, #leaderBoard {
@@ -42,6 +43,7 @@
     padding: 10px;
     color: white;
     box-shadow: 3px 3px grey;
+    list-style: none;
 }
 
 #options > li:hover {
@@ -51,4 +53,14 @@
 
 #options > li:active {
     transform: translateY(4px);
+}
+
+button:hover {
+    cursor: pointer;
+}
+
+@media screen and (max-width: 768px){
+    .card {
+        width: 100%;
+    }
 }
