@@ -19,39 +19,39 @@ var emojiBank = ["😷", "😍", "🤑", "🥵", "🤠", "🧐", "🥶", "😎",
 //options array can contain as many options as you want (generally 4)
 var bank = [
   {
-    question: "Q1",
-    answer: "answer",
-    options: ["answer", "wrong", "wrong", "wrong"]
+    question: "Which three languages make up the backbone of the web?",
+    answer: "HTML, CSS, Javascript",
+    options: ["HTML, CSS, Javascript", "Markup, Java, Python", "C++, CSS, C#", "English, French, Spanish"]
   },
   {
-    question: "Q2",
-    answer: "answer",
-    options: ["answer", "wrong", "wrong", "wrong"]
+    question: "What does CSS stand for",
+    answer: "Cascading Style Sheets",
+    options: ["Cascading Style Sheets", "Chip Set Super", "Computer Storage System", "Computed Style Segments"]
   },
   {
-    question: "Q3",
-    answer: "answer",
-    options: ["answer", "wrong", "wrong", "wrong"]
+    question: "Which of these would you use to around an array in Javascript",
+    answer: "[]",
+    options: ["[]", "{}", "()", "<>"]
   },
   {
-    question: "Q4",
-    answer: "answer",
-    options: ["answer", "wrong", "wrong"]
+    question: "True or False: Javascript uses the exact same syntax as Java",
+    answer: "False",
+    options: ["False", "True"]
   },
   {
-    question: "Q5",
-    answer: "answer",
-    options: ["answer", "wrong", "wrong", "wrong"]
+    question: "10 % 2 = ",
+    answer: "0",
+    options: ["0", "5", "20", "102"]
   },
   {
-    question: "Q6",
-    answer: "answer",
-    options: ["answer", "wrong", "wrong", "wrong"]
+    question: "You can access the first item in an array with which peice of code?",
+    answer: "array[0]",
+    options: ["array[0]", "array[1]", "array.0", "array.1"]
   },
   {
-    question: "Q7",
-    answer: "answer",
-    options: ["answer", "wrong", "wrong", "wrong"]
+    question: "Given arry['1','2','3'] : What would arry.length return",
+    answer: "3",
+    options: ["3", "2", "undefined", "4"]
   },
   {
     question: "Q8",
