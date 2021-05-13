@@ -1,7 +1,6 @@
 # Code-Quiz
-Homework #4 Code Quiz
 
-Goal: Make a quiz game website using HTML, CSS, and Javascript. The page should store high scores that persits between session using local storage. 
+Quiz game website using HTML, CSS, and Javascript. The page stores high scores that persits between session using local storage. 
 
 The deployed webpage can be found [here](https://matthewronaldjohnson.github.io/Code-Quiz/).
 
@@ -30,15 +29,4 @@ Here the user can submit their initials to have their score saved and be taken t
 
 High Scores are displayed highest to lowest (in case of a tie the older score keeps the higher spot). Only the top 5 scores recorded will be displayed. (If score was submitted without initials an emoji from a list is randomly selected as a placeholder.)
 
-From here the user can use the go back button to return to the start screen or the reset scores screen to clear the high score leaderboard. 
-
-## Resources
-Stackoverflow post on shuffling arrays [link](https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array)
-
-CodeBurst.io article on short-circuit evaluation [link](https://codeburst.io/javascript-what-is-short-circuit-evaluation-ff22b2f5608c)
-
-MDN Doc on forEach() method for arrays [link](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/forEach)
-
-w3Schools on sort method for arrays [link](https://www.w3schools.com/js/js_array_sort.asp)
-
-MDN Doc on Destructuring Assigment [link](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Destructuring_assignment)
+From here the user can use the go back button to return to the start screen or the reset scores screen to clear the high score leaderboard.
